@@ -1,0 +1,7 @@
+// compliance/peru-regulatory/ley-29733-datos-personales.json
+{
+  "standard": "Ley N° 29733 - Protección de Datos Personales (Perú)",
+  "controls": [
+    { "id": "LPDP-01", "name": "Clasificación de Datos", "implementation": "Module-GobiernoAD.psm1", "compliance_status": "Compliant" }
+  ]
+}
