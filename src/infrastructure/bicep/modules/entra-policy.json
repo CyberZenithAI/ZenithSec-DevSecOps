@@ -1,0 +1,21 @@
+// src/infrastructure/bicep/modules/entra-policy.json
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "resources": [
+    {
+      "type": "Microsoft.Graph/conditionalAccessPolicies",
+      "apiVersion": "2023-09-01",
+      "name": "block-legacy-auth",
+      "properties": {
+        "displayName": "ZenithSec: Block Legacy Authentication",
+        "state": "enabled",
+        "conditions": {
+          "clientAppTypes": ["exchangeActiveSync", "other"],
+          "applications": { "includeApplications": ["All"] }
+        },
+        "grantControls": { "operator": "OR", "builtInControls": ["block"] }
+      }
+    }
+  ]
+}
