@@ -1,0 +1,8 @@
+// compliance/cis-controls-v8/controls-mapping.json
+{
+  "standard": "CIS Controls v8",
+  "controls": [
+    { "id": "5.1", "name": "Establish Secure Configurations", "implementation": "security/PSScriptAnalyzerSettings.psd1", "evidence": ".github/workflows/ci-security-scan.yml" },
+    { "id": "6.1", "name": "Establish an Access Granting Process", "implementation": "Module-FinancieroAD.psm1", "evidence": "tests/unit/Financial.Tests.ps1" }
+  ]
+}
