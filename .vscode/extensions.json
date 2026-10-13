@@ -1,0 +1,11 @@
+// .vscode/extensions.json
+{
+    "recommendations": [
+        "ms-vscode.powershell",
+        "ms-azuretools.vscode-bicep",
+        "ms-vscode.azure-account",
+        "github.vscode-github-actions",
+        "redhat.vscode-yaml",
+        "aquasecurityofficial.trivy-vulnerability-scanner"
+    ]
+}
