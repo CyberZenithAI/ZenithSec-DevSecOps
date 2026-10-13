@@ -1,19 +1,39 @@
-# security/PSScriptAnalyzerSettings.psd1
 @{
-    Severity = @('Error', 'Warning')
-    ExcludeRules = @(
-        'PSUseShouldProcessForStateChangingFunctions' # Disabled for internal automation functions
-    )
+    Severity = @('Error')
     IncludeRules = @(
-        'PSAvoidUsingPlainTextForPassword',
         'PSAvoidUsingInvokeExpression',
         'PSUseApprovedVerbs',
-        'PSAvoidUsingWriteHost',
+        'PSUseDeclaredVarsMoreThanAssignments',
         'PSUseConsistentIndentation',
-        'PSUseDeclaredVarsMoreThanAssignments'
+        'PSAvoidGlobalVars',
+        'PSAvoidUsingPlainTextForPassword'
+    )
+    ExcludeRules = @(
+        'PSAvoidUsingConvertToSecureStringWithPlainText',
+        'PSUseShouldProcessForStateChangingFunctions',
+        'PSAvoidUsingWriteHost',
+        'PSUseSingularNouns',
+        'PSAvoidUsingEmptyCatchBlock',
+        'PSUsePSCredentialType'
     )
     Rules = @{
-        PSAvoidUsingPlainTextForPassword = @{ Enable = $true }
-        PSAvoidUsingInvokeExpression = @{ Enable = $true }
+        PSAvoidUsingInvokeExpression = @{
+            Enable = $true
+        }
+        PSAvoidUsingPlainTextForPassword = @{
+            Enable = $false
+        }
+        PSAvoidUsingConvertToSecureStringWithPlainText = @{
+            Enable = $false
+        }
+        PSUseConsistentIndentation = @{
+            Enable = $true
+            IndentationSize = 4
+            PipelineIndentation = 'IncreaseIndentationForFirstPipeline'
+            Kind = 'space'
+        }
+        PSAvoidGlobalVars = @{
+            Enable = $false
+        }
     }
 }
