@@ -2,6 +2,19 @@
 {
   "standard": "Directiva N° 007-2021-PCM/SGD (Perú)",
   "controls": [
-    { "id": "PCM-01", "name": "Seguridad en Infraestructura", "implementation": "src/infrastructure/bicep/main.json", "compliance_status": "Compliant" }
+    {
+      "id": "PCM-01",
+      "name": "Depuración de Cuentas de Terceros (CAS/Locadores)",
+      "implementation": "src/powershell/government/Invoke-ADMasterFramework.ps1 (Función: Invoke-ADUserLifecycleCleanup)",
+      "evidence": "src/powershell/government/Invoke-ADMasterFramework.ps1",
+      "compliance_status": "Compliant"
+    },
+    {
+      "id": "PCM-02",
+      "name": "Auditoría de Sistemas Críticos (SIAF/SIGA) para Contraloría",
+      "implementation": "src/powershell/government/Invoke-ADMasterFramework.ps1 (Función: Get-SIAFSIGAAccessAudit)",
+      "evidence": "tests/integration/Government.Tests.ps1",
+      "compliance_status": "Compliant"
+    }
   ]
 }
