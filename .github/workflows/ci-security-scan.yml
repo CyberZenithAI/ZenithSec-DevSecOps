@@ -1,0 +1,24 @@
+# .github/workflows/ci-security-scan.yml
+name: ZenithSec CI - Security & Secrets Scan
+on: [push, pull_request]
+permissions: read-all
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Gitleaks Secret Scanning
+        uses: gitleaks/gitleaks-action@v2
+        env: { GITLEAKS_CONFIG: security/gitleaks-config.json }
+      - name: Setup PowerShell
+        uses: potatoqualitee/psmodulecache@v6
+        with: { modules-to-cache: PSScriptAnalyzer }
+      - name: PSScriptAnalyzer Security Baseline
+        shell: pwsh
+        run: |
+          $results = Invoke-ScriptAnalyzer -Path ./src -Settings ./security/PSScriptAnalyzerSettings.psd1 -Recurse -Severity Error
+          if ($results) { $results | Format-Table; throw "Security violations found." }
+      - name: Checkov IaC Security Scan
+        uses: bridgecrewio/checkov-action@master
+        with: { config_file: security/checkov-config.yaml }
