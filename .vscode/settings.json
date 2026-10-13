@@ -1,0 +1,12 @@
+// .vscode/settings.json
+{
+    "powershell.scriptAnalysis.enable": true,
+    "powershell.scriptAnalysis.settingsPath": "../security/PSScriptAnalyzerSettings.psd1",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "ms-vscode.powershell",
+    "files.associations": {
+        "*.json": "json",
+        "*.yml": "yaml"
+    },
+    "security.workspace.trust.enabled": true
+}
