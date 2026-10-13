@@ -1,0 +1,8 @@
+// compliance/peru-regulatory/sbs-10356-2021.json
+{
+  "standard": "Resolución SBS N° 10356-2021 (Perú)",
+  "chapter": "Gestión de Riesgos de TI y Ciberseguridad",
+  "controls": [
+    { "id": "SBS-TI-01", "name": "Seguridad en Identidades", "implementation": "Module-FinancieroAD.psm1", "compliance_status": "Compliant" }
+  ]
+}
