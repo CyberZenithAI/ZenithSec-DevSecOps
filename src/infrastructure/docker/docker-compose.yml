@@ -1,0 +1,25 @@
+# src/infrastructure/docker/docker-compose.yml
+version: '3.8'
+services:
+  zenithsec-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zenithsec-agent
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - SIEM_ENDPOINT=${SIEM_ENDPOINT}
+      - AGENT_TOKEN_FILE=/run/secrets/agent_token
+    secrets:
+      - agent_token
+    deploy:
+      resources:
+        limits: { cpus: '0.50', memory: 512M }
+secrets:
+  agent_token:
+    external: true
