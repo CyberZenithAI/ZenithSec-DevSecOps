@@ -1,0 +1,21 @@
+# .github/workflows/ci-code-quality.yml
+name: ZenithSec CI - Code Quality & Pester
+on: [pull_request]
+permissions: read-all
+jobs:
+  quality-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PowerShell & Pester
+        uses: potatoqualitee/psmodulecache@v6
+        with: { modules-to-cache: Pester, PSScriptAnalyzer }
+      - name: Execute Pester Tests
+        shell: pwsh
+        run: |
+          $config = New-PesterConfiguration
+          $config.Run.Path = "./tests"
+          $config.TestResult.Enabled = $true
+          $config.Output.Verbosity = "Detailed"
+          $result = Invoke-Pester -Configuration $config
+          if ($result.FailedCount -gt 0) { throw "Pester tests failed." }
