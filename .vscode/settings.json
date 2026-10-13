@@ -1,12 +1,18 @@
-// .vscode/settings.json
 {
     "powershell.scriptAnalysis.enable": true,
-    "powershell.scriptAnalysis.settingsPath": "../security/PSScriptAnalyzerSettings.psd1",
+    "powershell.scriptAnalysis.settingsPath": "${workspaceFolder}/security/PSScriptAnalyzerSettings.psd1",
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "ms-vscode.powershell",
     "files.associations": {
         "*.json": "json",
-        "*.yml": "yaml"
+        "*.yml": "yaml",
+        "*.ps1": "powershell",
+        "*.psm1": "powershell",
+        "*.psd1": "powershell"
     },
-    "security.workspace.trust.enabled": true
+    "security.workspace.trust.enabled": true,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true
+    }
 }
