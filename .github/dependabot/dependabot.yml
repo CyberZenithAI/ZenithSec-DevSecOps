@@ -1,9 +1,17 @@
-# .github/dependabot/dependabot.yml
 version: 2
 updates:
   - package-ecosystem: "github-actions"
     directory: "/"
-    schedule: { interval: "weekly" }
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    commit-message:
+      prefix: "chore(deps)"
+      
   - package-ecosystem: "docker"
     directory: "/src/infrastructure/docker"
-    schedule: { interval: "weekly" }
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker)"
