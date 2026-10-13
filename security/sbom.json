@@ -1,0 +1,13 @@
+// security/sbom.json
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "version": 1,
+  "metadata": {
+    "component": { "type": "application", "name": "ZenithSec-DevSecOps", "version": "2.1.0" }
+  },
+  "components": [
+    { "type": "library", "name": "Pester", "version": "5.5.0", "licenses": [{"license": {"id": "Apache-2.0"}}] },
+    { "type": "library", "name": "PSScriptAnalyzer", "version": "1.22.0", "licenses": [{"license": {"id": "MIT"}}] }
+  ]
+}
