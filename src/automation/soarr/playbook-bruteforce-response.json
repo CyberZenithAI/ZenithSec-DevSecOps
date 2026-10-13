@@ -1,0 +1,16 @@
+// src/automation/soarr/playbook-bruteforce-response.json
+{
+  "playbook_id": "zenithsec-bruteforce-response",
+  "version": "1.0.0",
+  "trigger": { "type": "webhook", "condition": "alert.severity >= 'High' AND alert.category == 'BruteForce'" },
+  "actions": [
+    {
+      "id": "1", "name": "EnrichIP", "type": "api_call",
+      "config": { "url": "https://api.abuseipdb.com/api/v2/check", "method": "GET", "headers": {"Key": "{{ABUSEIPDB_KEY}}"} }
+    },
+    {
+      "id": "2", "name": "BlockIP", "type": "powershell_script", "condition": "steps.1.outputs.confidenceScore > 80",
+      "config": { "script": "Invoke-SecureADOperation -Action { Block-FirewallIP -IP $trigger.source_ip } -OperationName 'BlockIP'" }
+    }
+  ]
+}
