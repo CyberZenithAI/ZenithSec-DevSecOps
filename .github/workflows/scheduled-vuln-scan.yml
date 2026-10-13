@@ -1,0 +1,20 @@
+# .github/workflows/scheduled-vuln-scan.yml
+name: ZenithSec Scheduled - Vulnerability Scan
+on:
+  schedule: [{ cron: '0 2 * * 1' }] # Weekly
+permissions: read-all
+jobs:
+  vuln-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Trivy Filesystem Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+      - name: Dependabot Auto-Merge Security Patches
+        uses: ahmadnassri/action-dependabot-auto-merge@v2
+        with: { target: minor, github-token: ${{ secrets.DEPENDABOT_TOKEN }} }
