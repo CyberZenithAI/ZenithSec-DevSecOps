@@ -1,0 +1,9 @@
+# .github/dependabot/dependabot.yml
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule: { interval: "weekly" }
+  - package-ecosystem: "docker"
+    directory: "/src/infrastructure/docker"
+    schedule: { interval: "weekly" }
