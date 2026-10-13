@@ -1,0 +1,9 @@
+# security/codeql-config.yml
+name: "ZenithSec CodeQL Config"
+paths:
+  - src
+paths-ignore:
+  - tests
+  - docs
+queries:
+  - uses: security-and-quality
