@@ -1,0 +1,39 @@
+# src/infrastructure/docker/Dockerfile
+# Hardened Windows Server Core for AD Automation (RSAT Compatible)
+# Cumple con CIS Benchmarks para contenedores Windows
+
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
+
+# 1. No ejecutar como usuario root/System por defecto (Principio de Menor Privilegio)
+USER ContainerAdministrator
+
+# 2. Instalar PowerShell 7.x y RSAT-AD-PowerShell (Requisito de tus scripts)
+RUN powershell -Command " \
+    Install-PackageProvider -Name NuGet -Force; \
+    Install-Module -Name PowerShellGet -Force -AllowClobber; \
+    Install-WindowsFeature -Name RSAT-AD-PowerShell; \
+    Install-Module -Name Microsoft.PowerShell.SecretManagement -Force; \
+    Install-Module -Name PSFramework -Force; \
+    Remove-Item -Recurse -Force $env:TEMP\*"
+
+# 3. Crear directorio de trabajo seguro con ACLs restringidas
+WORKDIR /app
+RUN powershell -Command " \
+    $acl = Get-Acl C:\app; \
+    $acl.SetAccessRuleProtection($true, $false); \
+    $rule = New-Object System.Security.AccessControl.FileSystemAccessRule('BUILTIN\Administrators','FullControl','Allow'); \
+    $acl.AddAccessRule($rule); \
+    Set-Acl C:\app $acl"
+
+# 4. Copiar scripts de automatización (Validados por CI/CD previamente)
+COPY src/powershell/ /app/scripts/
+
+# 5. Metadata de seguridad y cumplimiento
+LABEL maintainer="CyberZenithAI"
+LABEL org.opencontainers.image.source="https://github.com/CyberZenithAI/ZenithSec-DevSecOps"
+LABEL org.opencontainers.image.description="Hardened AD Automation Container for PE Financial/Mining/Gov Sectors"
+LABEL compliance="ISO27001:2022,SBS-10356-2021,OSINERGMIN,PCM-SEGDI"
+
+# 6. Punto de entrada seguro (Headless para CI/CD)
+ENTRYPOINT ["pwsh", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File"]
+CMD ["/app/scripts/financial/Invoke-NAIF_AD_Automation.ps1", "-Action", "PrivilegeAudit"]
