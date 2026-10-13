@@ -1,0 +1,29 @@
+// src/infrastructure/bicep/main.json
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environment": { "type": "string", "allowedValues": ["staging", "production"] }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "keyvault-deploy",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "relativePath": "modules/keyvault.json" },
+        "parameters": { "environment": { "value": "[parameters('environment')]" } }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "entra-policy-deploy",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "relativePath": "modules/entra-policy.json" }
+      }
+    }
+  ]
+}
