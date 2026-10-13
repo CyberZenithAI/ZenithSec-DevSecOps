@@ -1,0 +1,20 @@
+// security/gitleaks-config.json
+{
+  "rules": [
+    {
+      "id": "zenithsec-aws-access-key",
+      "description": "AWS Access Key",
+      "regex": "AKIA[0-9A-Z]{16}",
+      "tags": ["aws", "credentials"]
+    },
+    {
+      "id": "zenithsec-generic-api-key",
+      "description": "Generic API Key",
+      "regex": "(?i)(api_key|apikey|secret)\\s*[:=]\\s*['\"][a-zA-Z0-9]{32,}['\"]",
+      "tags": ["generic", "credentials"]
+    }
+  ],
+  "allowlist": {
+    "paths": ["tests/.*", "docs/.*"]
+  }
+}
