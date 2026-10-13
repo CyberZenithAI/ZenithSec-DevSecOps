@@ -1,0 +1,20 @@
+# .github/CODEOWNERS
+# Este archivo es OBLIGATORIO para repositorios empresariales. 
+# Define quién debe aprobar obligatoriamente los PRs.
+
+# Dueño general del repositorio
+* @CyberZenithAI
+
+# Aprobación obligatoria para cambios en scripts financieros (SBS)
+/src/powershell/financial/ @CyberZenithAI @SecurityLead_Finanzas
+
+# Aprobación obligatoria para cambios en scripts de minería (OSINERGMIN)
+/src/powershell/mining/ @CyberZenithAI @SecurityLead_Operaciones
+
+# Aprobación obligatoria para cambios en scripts de gobierno (PCM/INAI)
+/src/powershell/government/ @CyberZenithAI @SecurityLead_Gobierno
+
+# Aprobación obligatoria para cambios en pipelines de seguridad o compliance
+/.github/workflows/ci-security-scan.yml @CyberZenithAI
+/security/ @CyberZenithAI
+/compliance/ @CyberZenithAI
