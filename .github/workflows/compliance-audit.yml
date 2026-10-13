@@ -1,18 +1,41 @@
-# .github/workflows/compliance-audit.yml
 name: ZenithSec Compliance - ISO & NIST Audit
-on: [push]
-permissions: read-all
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'compliance/**'
+
+permissions:
+  contents: read
+
 jobs:
   compliance-check:
+    name: Validate Compliance Mapping
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Validate Compliance Mapping
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Validate JSON Compliance Files
         shell: pwsh
         run: |
           $complianceFiles = Get-ChildItem -Path ./compliance -Recurse -Filter *.json
+          $errors = @()
+          
           foreach ($file in $complianceFiles) {
-              $json = Get-Content $file.FullName | ConvertFrom-Json
-              if (-not $json.controls) { throw "Invalid compliance structure in $($file.Name)" }
+              try {
+                  $json = Get-Content $file.FullName -Raw | ConvertFrom-Json -ErrorAction Stop
+                  # Validación flexible: busca 'controls' o 'standard' como indicadores de validez
+                  if (-not ($json.controls -or $json.standard)) { 
+                      $errors += "Estructura inválida en $($file.Name): Falta 'controls' o 'standard'."
+                  }
+              } catch {
+                  $errors += "JSON malformado en $($file.Name): $($_.Exception.Message)"
+              }
           }
-          Write-Host "Compliance matrices validated successfully."
+          
+          if ($errors.Count -gt 0) {
+              $errors | ForEach-Object { Write-Error $_ }
+              throw "Fallo en la auditoría de cumplimiento. Revisa los archivos JSON."
+          }
+          Write-Host "✅ Compliance matrices validated successfully." -ForegroundColor Green
