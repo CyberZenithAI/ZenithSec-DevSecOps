@@ -1,9 +1,16 @@
-# .github/ISSUE_TEMPLATE/feature_request.yml
-name: Feature Request
-description: Suggest a new capability
+name: 🚀 Feature Request
+description: Suggest a new capability or improvement
 labels: ["enhancement"]
 body:
   - type: textarea
     id: problem
-    attributes: { label: "Problem Statement", description: "What problem does this solve?" }
-    validations: { required: true }
+    attributes:
+      label: Problem Statement
+      description: What problem does this solve? Why is it needed for compliance or security?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the expected behavior or technical implementation.
