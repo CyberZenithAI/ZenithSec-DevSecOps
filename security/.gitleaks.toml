@@ -1,0 +1,61 @@
+title = "ZenithSec Gitleaks Configuration"
+
+# Reglas personalizadas para el contexto peruano
+[[rules]]
+id = "peru-dni"
+description = "Detect Peruvian DNI (8 digits)"
+regex = '''\b\d{8}\b'''
+tags = ["peru", "pii", "dni"]
+severity = "HIGH"
+
+[[rules]]
+id = "peru-ruc"
+description = "Detect Peruvian RUC (11 digits)"
+regex = '''\b\d{11}\b'''
+tags = ["peru", "pii", "ruc"]
+severity = "HIGH"
+
+[[rules]]
+id = "aws-access-key"
+description = "AWS Access Key"
+regex = '''(A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}'''
+tags = ["aws", "credentials"]
+severity = "CRITICAL"
+
+[[rules]]
+id = "azure-client-secret"
+description = "Azure Client Secret"
+regex = '''(?i)(azure[_-]?client[_-]?secret|client[_-]?secret)\s*[:=]\s*['"]?([a-zA-Z0-9~_.-]{34,40})['"]?'''
+tags = ["azure", "credentials", "microsoft"]
+severity = "CRITICAL"
+
+[[rules]]
+id = "private-key"
+description = "Private Key Detection"
+regex = '''-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----'''
+tags = ["crypto", "private-key"]
+severity = "CRITICAL"
+
+[[rules]]
+id = "generic-api-key"
+description = "Generic API Key"
+regex = '''(?i)(api[_-]?key|apikey)\s*[:=]\s*['"]?([a-zA-Z0-9]{32,})['"]?'''
+tags = ["api", "credentials"]
+severity = "HIGH"
+
+[allowlist]
+description = "Global allowlist"
+paths = [
+    '''(^|/)\.git/''',
+    '''(^|/)node_modules/''',
+    '''(^|/)vendor/''',
+    '''security/sbom\.json$''',
+    '''tests/.*\.mock\.json$'''
+]
+
+regexes = [
+    '''example\.com''',
+    '''test[_-]?(key|secret|token)''',
+    '''placeholder''',
+    '''dummy[_-]?value'''
+]
