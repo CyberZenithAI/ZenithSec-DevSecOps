@@ -1,0 +1,20 @@
+// .vscode/launch.json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "PowerShell: Debug Current Script",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "${file}",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "PowerShell: Run Pester Tests",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "Invoke-Pester -Path ./tests -Output Detailed",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
