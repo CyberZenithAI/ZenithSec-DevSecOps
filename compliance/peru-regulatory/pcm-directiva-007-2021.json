@@ -1,0 +1,7 @@
+// compliance/peru-regulatory/pcm-directiva-007-2021.json
+{
+  "standard": "Directiva N° 007-2021-PCM/SGD (Perú)",
+  "controls": [
+    { "id": "PCM-01", "name": "Seguridad en Infraestructura", "implementation": "src/infrastructure/bicep/main.json", "compliance_status": "Compliant" }
+  ]
+}
