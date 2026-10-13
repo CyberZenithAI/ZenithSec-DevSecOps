@@ -1,0 +1,20 @@
+// compliance/peru-regulatory/osinergmin-mineria.json
+{
+  "standard": "Lineamientos de Ciberseguridad OSINERGMIN (Convergencia IT/OT)",
+  "controls": [
+    {
+      "id": "OSI-01",
+      "name": "Segmentación y Aislamiento de Contratistas en Campamentos",
+      "implementation": "src/powershell/mining/AD_Automator_Mining_Corp_PE2026.ps1 (Lógica de Mapeo de OU por Unidad Minera)",
+      "evidence": "src/powershell/mining/AD_Automator_Mining_Corp_PE2026.ps1",
+      "compliance_status": "Compliant"
+    },
+    {
+      "id": "OSI-02",
+      "name": "Optimización de Replicación y Uso de RODC en Zonas Remotas",
+      "implementation": "src/powershell/mining/AD_Automator_Mining_Corp_PE2026.ps1 (Función: Optimize-RemoteReplication)",
+      "evidence": "tests/unit/Mining.Tests.ps1",
+      "compliance_status": "Compliant"
+    }
+  ]
+}
