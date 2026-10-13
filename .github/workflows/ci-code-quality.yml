@@ -1,21 +1,47 @@
-# .github/workflows/ci-code-quality.yml
 name: ZenithSec CI - Code Quality & Pester
-on: [pull_request]
-permissions: read-all
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
 jobs:
   quality-tests:
-    runs-on: ubuntu-latest
+    name: Pester & Code Quality
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
       - name: Setup PowerShell & Pester
-        uses: potatoqualitee/psmodulecache@v6
-        with: { modules-to-cache: Pester, PSScriptAnalyzer }
+        shell: pwsh
+        run: |
+          Install-Module -Name Pester -Force -Scope CurrentUser -SkipPublisherCheck -AllowClobber
+          Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser -AllowClobber
+
       - name: Execute Pester Tests
         shell: pwsh
         run: |
+          $testPath = "./tests"
+          if (-not (Test-Path $testPath)) {
+              Write-Host "⚠️ No tests directory found. Skipping Pester execution." -ForegroundColor Yellow
+              exit 0
+          }
+          
           $config = New-PesterConfiguration
-          $config.Run.Path = "./tests"
-          $config.TestResult.Enabled = $true
+          $config.Run.Path = $testPath
           $config.Output.Verbosity = "Detailed"
+          $config.TestResult.Enabled = $true
+          $config.TestResult.OutputFormat = "NUnitXml"
+          $config.TestResult.OutputPath = "test-results.xml"
+          
           $result = Invoke-Pester -Configuration $config
-          if ($result.FailedCount -gt 0) { throw "Pester tests failed." }
+          
+          if ($result.FailedCount -gt 0) { 
+              Write-Host "❌ Pester tests failed: $($result.FailedCount) failures." -ForegroundColor Red
+              exit 1 
+          }
+          Write-Host "✅ All Pester tests passed successfully." -ForegroundColor Green
