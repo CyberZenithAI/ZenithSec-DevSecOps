@@ -1,0 +1,12 @@
+// src/automation/sentinel/analytics-rules.json
+[
+  {
+    "name": "ZenithSec-AD-Privilege-Escalation",
+    "description": "Detects suspicious privilege escalation in AD",
+    "severity": "High",
+    "query": "SecurityEvent | where EventID == 4672 | where AccountType == 'User' | extend Severity = 'High'",
+    "enabled": true,
+    "tactics": ["PrivilegeEscalation"],
+    "techniques": ["T1078"]
+  }
+]
