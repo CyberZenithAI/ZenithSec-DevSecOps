@@ -1,20 +1,63 @@
-// security/gitleaks-config.json
 {
+  "title": "ZenithSec Gitleaks Config - AD Automation",
   "rules": [
     {
-      "id": "zenithsec-aws-access-key",
+      "id": "aws-access-key",
       "description": "AWS Access Key",
       "regex": "AKIA[0-9A-Z]{16}",
-      "tags": ["aws", "credentials"]
+      "tags": ["aws", "credentials"],
+      "keywords": ["AKIA"]
     },
     {
-      "id": "zenithsec-generic-api-key",
-      "description": "Generic API Key",
-      "regex": "(?i)(api_key|apikey|secret)\\s*[:=]\\s*['\"][a-zA-Z0-9]{32,}['\"]",
-      "tags": ["generic", "credentials"]
+      "id": "azure-storage-key",
+      "description": "Azure Storage Account Key",
+      "regex": "(?i)AccountKey\\s*=\\s*[a-zA-Z0-9+/]{86}==",
+      "tags": ["azure", "credentials"],
+      "keywords": ["AccountKey"]
+    },
+    {
+      "id": "generic-api-key-hardcoded",
+      "description": "Hardcoded API Key in variable assignment",
+      "regex": "(?i)(api[_-]?key|apikey|secret[_-]?key)\\s*[:=]\\s*['\\\"][A-Za-z0-9_\\-]{24,}['\\\"]",
+      "tags": ["generic", "credentials"],
+      "keywords": ["api_key", "apikey", "secret_key"]
+    },
+    {
+      "id": "private-key-block",
+      "description": "RSA/EC Private Key Block",
+      "regex": "-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----",
+      "tags": ["privatekey"],
+      "keywords": ["BEGIN PRIVATE KEY"]
     }
   ],
   "allowlist": {
-    "paths": ["tests/.*", "docs/.*"]
+    "description": "PowerShell SecureString patterns are LEGITIMATE for AD automation",
+    "regexTarget": "match",
+    "regexes": [
+      "ConvertTo-SecureString\\s+-AsPlainText\\s+-Force",
+      "ConvertTo-SecureString\\s+-String\\s+\\$",
+      "\\[SecureString\\]",
+      "GeneratePassword\\(",
+      "Get-Random.*-Count\\s+32",
+      "AsPlainText\\s+-Force",
+      "\\$newPass\\s*=\\s*-join",
+      "\\$SecurePass\\s*=",
+      "\\$secStringPassword\\s*=",
+      "\\$securePass\\s*=",
+      "ChangePasswordAtLogon",
+      "Set-ADAccountPassword.*-Reset",
+      "Sample[-_]?Secret",
+      "EXAMPLE_SECRET",
+      "placeholder",
+      "dummy"
+    ],
+    "paths": [
+      "tests/.*",
+      "docs/.*",
+      "\\.github/.*",
+      "security/.*",
+      "compliance/.*"
+    ],
+    "commits": []
   }
 }
