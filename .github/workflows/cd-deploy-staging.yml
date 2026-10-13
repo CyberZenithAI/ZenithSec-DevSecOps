@@ -1,0 +1,27 @@
+# .github/workflows/cd-deploy-staging.yml
+name: ZenithSec CD - Secure Staging Deploy
+on:
+  push: { branches: [main] }
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  deploy-azure:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - name: Azure OIDC Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Deploy ARM Templates (Infrastructure as Code)
+        uses: azure/arm-deploy@v1
+        with:
+          scope: resourcegroup
+          resourceGroupName: rg-zenithsec-staging
+          template: src/infrastructure/bicep/main.json
+          parameters: environment=staging
+          failOnStdErr: true
