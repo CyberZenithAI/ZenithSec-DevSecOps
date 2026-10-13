@@ -1,0 +1,13 @@
+// security/threat-model.json
+{
+  "model": "STRIDE",
+  "components": [
+    {
+      "name": "AD Automation Scripts",
+      "threats": [
+        { "category": "Tampering", "description": "Malicious modification of PS scripts", "mitigation": "GitHub Branch Protection, CodeQL, PR Reviews" },
+        { "category": "Information Disclosure", "description": "Secrets leaked in logs", "mitigation": "Gitleaks, SecureString, SIEM masking" }
+      ]
+    }
+  ]
+}
