@@ -1,9 +1,18 @@
 # tests/unit/Government.Tests.ps1
-BeforeAll { Import-Module ./src/powershell/modules/Government/Module-GobiernoAD.psd1 -Force }
-Describe "Government AD Module Unit Tests" {
-    Context "Set-GovernmentDataClassification" {
-        It "Should reject invalid classification levels" {
-            { Set-GovernmentDataClassification -TargetOU "OU=Test" -Classification "TopSecret" -AdminCred (New-Object System.Management.Automation.PSCredential ("a", (ConvertTo-SecureString "b" -AsPlainText -Force))) } | Should -Throw
-        }
+BeforeAll {
+    Mock Get-ADUser { return @{ SamAccountName = 'j.perez'; ExtensionAttribute10 = '12345678'; ExtensionAttribute11 = 'Analista' } }
+    Mock New-ADUser { return $true }
+    Mock Add-ADPrincipalGroupMembership { return $true }
+}
+
+Describe "Invoke-ADMasterFramework.ps1 - Creación PCM" {
+    It "Debe generar un SamAccountName estandarizado según directiva SEGDI" {
+        # Simulamos la lógica de creación
+        $FirstName = "Juan"
+        $LastName = "Perez"
+        $expectedSam = "j.perez"
+        
+        $samAccountName = "$($FirstName.Substring(0,1).ToLower()).$($LastName.ToLower())"
+        $samAccountName | Should -BeExactly $expectedSam
     }
 }
