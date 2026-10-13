@@ -1,0 +1,10 @@
+# security/checkov-config.yaml
+soft-fail: false
+framework:
+  - arm
+  - dockerfile
+  - github_actions
+skip-check:
+  - CKV_AZURE_1 (Handled by custom policy)
+quiet: false
+compact: true
