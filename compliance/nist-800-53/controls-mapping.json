@@ -1,0 +1,8 @@
+// compliance/nist-800-53/controls-mapping.json
+{
+  "standard": "NIST SP 800-53 Rev 5",
+  "controls": [
+    { "id": "AC-2", "name": "Account Management", "implementation": "Invoke-SecureADOperation.ps1", "evidence": "tests/security/SecurityBaseline.Tests.ps1" },
+    { "id": "AU-2", "name": "Event Logging", "implementation": "Send-SIEMAuditLog.ps1", "evidence": "security/threat-model.json" }
+  ]
+}
