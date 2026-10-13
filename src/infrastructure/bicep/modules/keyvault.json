@@ -1,0 +1,23 @@
+// src/infrastructure/bicep/modules/keyvault.json
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": { "environment": { "type": "string" } },
+  "resources": [
+    {
+      "type": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2023-07-01",
+      "name": "[concat('kv-zenithsec-', parameters('environment'))]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "sku": { "family": "A", "name": "premium" },
+        "tenantId": "[subscription().tenantId]",
+        "enableRbacAuthorization": true,
+        "enableSoftDelete": true,
+        "softDeleteRetentionInDays": 90,
+        "enablePurgeProtection": true,
+        "networkAcls": { "defaultAction": "Deny", "bypass": "AzureServices" }
+      }
+    }
+  ]
+}
