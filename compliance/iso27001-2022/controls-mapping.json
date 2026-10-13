@@ -1,0 +1,8 @@
+// compliance/iso27001-2022/controls-mapping.json
+{
+  "standard": "ISO/IEC 27001:2022",
+  "controls": [
+    { "id": "A.5.15", "name": "Access Control", "implementation": "Module-FinancieroAD.psm1", "evidence": "tests/unit/Financial.Tests.ps1" },
+    { "id": "A.8.15", "name": "Logging", "implementation": "Send-SIEMAuditLog.ps1", "evidence": "tests/integration/AD-Integration.Tests.ps1" }
+  ]
+}
