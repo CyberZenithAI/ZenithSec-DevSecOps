@@ -1,0 +1,21 @@
+// compliance/peru-regulatory/sbs-10356-2021.json
+{
+  "standard": "Resolución SBS N° 10356-2021 (Perú)",
+  "chapter": "Gestión de Riesgos de TI y Ciberseguridad",
+  "controls": [
+    {
+      "id": "SBS-TI-01",
+      "name": "Gestión del Ciclo de Vida de Identidades (Offboarding)",
+      "implementation": "src/powershell/financial/Invoke-NAIF_AD_Automation.ps1 (Función: Invoke-Offboarding)",
+      "evidence": "tests/unit/Financial.Tests.ps1",
+      "compliance_status": "Compliant"
+    },
+    {
+      "id": "SBS-TI-02",
+      "name": "Control de Acceso Basado en Horarios (Prevención de Fraude Interno)",
+      "implementation": "src/powershell/financial/Invoke-NAIF_AD_Automation.ps1 (Función: Set-BranchLogonControl)",
+      "evidence": "src/powershell/financial/Invoke-NAIF_AD_Automation.ps1",
+      "compliance_status": "Compliant"
+    }
+  ]
+}
